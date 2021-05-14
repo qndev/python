@@ -1,0 +1,33 @@
+{
+    "customers" :[
+            {
+                "id": "CUS0001",
+                "name": "Nguyen Dinh Quang",
+                "email": "nguyen.dinh.quang@usol-v.com.vn"
+            },
+            {
+                "id": "CUS0002",
+                "name": "Nguyen Van A",
+                "email": "nguyen.van.a@usol-v.com.vn"
+            },
+            {
+                "id": "CUS0003",
+                "name": "Nguyen Van B",
+                "email": "nguyen.van.b@usol-v.com.vn"
+            }
+    ],
+    "orders": [
+        {
+            "order_id": "ORDER001",
+            "customer_id": "CUS0001",
+            "movie_id": "MOV001",
+            "order_date": "2021/05/12"
+        },
+        {
+            "order_id": "ORDER002",
+            "customer_id": "CUS0002",
+            "movie_id": "MOV001",
+            "order_date": "2021/05/13"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+	"CATE001" : {
+		"name": "Regular",
+		"price": 3,
+		"description": "Regular"
+	},
+	"CATE002" : {
+		"name": "Child & Family",
+		"price": 2,
+		"description": "Child & Family"
+	},
+	"CATE003" : {
+		"name": "Blockbuster",
+		"price": 5,
+		"description": "Blockbuster"
+	}
+}
