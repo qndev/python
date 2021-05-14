@@ -1,5 +1,5 @@
 class Order:
-    def __init__(self, order_id = None, customer_id = None, movie_id = None, order_date = None):
+    def __init__(self, order_id: str, customer_id: str, movie_id: str, order_date: str):
         self._order_id = order_id
         self._customer_id = customer_id
         self._movie_id = movie_id

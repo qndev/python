@@ -1,6 +1,6 @@
 class Category:
 
-    def __init__(self, cate_id = None, name = None, price = None, description = None):
+    def __init__(self, cate_id: str, name: str, price: str, description: str):
         self._cate_id = cate_id
         self._name = name
         self._pricce = price

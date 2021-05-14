@@ -1,20 +1,25 @@
 {
-    "customers" :[
-            {
-                "id": "CUS0001",
-                "name": "Nguyen Dinh Quang",
-                "email": "nguyen.dinh.quang@usol-v.com.vn"
-            },
-            {
-                "id": "CUS0002",
-                "name": "Nguyen Van A",
-                "email": "nguyen.van.a@usol-v.com.vn"
-            },
-            {
-                "id": "CUS0003",
-                "name": "Nguyen Van B",
-                "email": "nguyen.van.b@usol-v.com.vn"
-            }
+    "customers": [
+        {
+            "id": "CUS0001",
+            "name": "Nguyen Dinh Quang",
+            "email": "nguyen.dinh.quang@usol-v.com.vn"
+        },
+        {
+            "id": "CUS0002",
+            "name": "Nguyen Van A",
+            "email": "nguyen.van.a@usol-v.com.vn"
+        },
+        {
+            "id": "CUS0003",
+            "name": "Nguyen Van B",
+            "email": "nguyen.van.b@usol-v.com.vn"
+        },
+        {
+            "id": "CUS-f78b2c5e-b4be-11eb-bf7d-f8cab83d2a5c",
+            "name": "Nguyen Van C",
+            "email": "nguyen.van.c@usol-v.com.vn"
+        }
     ],
     "orders": [
         {
