@@ -16,13 +16,13 @@ class Order:
 
     def set_customer_id(self, customer_id):
         self._customer_id = customer_id
-    
+
     def get_movie_id(self):
         return self._movie_id
 
     def set_movie_id(self, movie_id):
         self._movie_id = movie_id
-    
+
     def get_order_date(self):
         return self._order_date
 

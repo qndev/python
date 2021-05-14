@@ -1,5 +1,5 @@
 class Movie:
-    def __init__(self, movie_id: str, name: str, release_month: str, category_id:str):
+    def __init__(self, movie_id: str, name: str, release_month: str, category_id: str):
         self._movie_id = movie_id
         self._name = name
         self._release_month = release_month
@@ -10,13 +10,13 @@ class Movie:
 
     def set_movie_id(self, movie_id):
         self._movie_id = movie_id
-    
+
     def get_name(self):
         return self._name
 
     def set_name(self, name):
         self._name = name
-    
+
     def get_release_month(self):
         return self._release_month
 

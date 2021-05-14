@@ -8,3 +8,5 @@ EXTRA_NEW_FEES = [1.0, 1.0, 3.0]
 EXTRA_DAY_FEES = [1.5, 1.0, 3.0]
 OPTIONS = ["1", "2"]
 CUSTOMER_RESOURCES_PATH = "/home/quangnd/Python/python-training/resources/customers.json"
+EMPTY_STRING = ""
+ERROR_MESSAGES = "Some thing went wrong, please contact to admin!"
