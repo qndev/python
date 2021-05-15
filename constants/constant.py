@@ -19,3 +19,5 @@ class Constants:
                    "customer_id", "movie_id", "order_date"]
     MOVIE_KEYS = ["name", "category_id", "release_month"]
     CATEGORY_KEYS = ["name", "price", "description"]
+    MOVIE_SCREEN_DISPLAY = [26, 23, 19, 17]
+    INDEX = 0

@@ -1,3 +1,7 @@
+from models.movie import Movie
+from constants.constant import Constants
+
+
 def print_header():
     print("||===============================================================================================||")
     print("||                                                                                               ||")
@@ -23,3 +27,11 @@ def print_options():
 def print_movie_banner():
     print("||                                      List movies                                              ||")
     print("||===============================================================================================||")
+    print("|| Movie                       | Category               | Release month      | Price             ||")
+    print("||=============================*========================*====================*===================||")
+
+# 3, 27, 22, 18, 11
+
+
+def print_list_movies(movie: Movie, no: int):
+    print(f"|| {no}.{movie.get_name()}| {movie.get_category().get_name()}| {movie.get_release_month()}| {movie.get_category().get_price()} ||")
