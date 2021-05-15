@@ -38,6 +38,6 @@ def exists_customer() -> bool:
         if ((StringUtils.check_for_blanks(imput_email)) == False):
             logging_in = False
     exists_customer = customer_service.select_customer(imput_email)
-    print(exists_customer)
     if (exists_customer):
         return True
+    return False

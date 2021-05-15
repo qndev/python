@@ -13,7 +13,7 @@ class Constants:
     MOVIE_RESOURCES_PATH = "/home/quangnd/Python/python-training/resources/movies.json"
     CATEGORY_RESOURCES_PATH = "/home/quangnd/Python/python-training/resources/categories.json"
     EMPTY_STRING = ""
-    ERROR_MESSAGES = "Some thing went wrong, please contact to admin!"
+    ERROR_MESSAGES = "Some thing went wrong, please contact to administrator to fix this!"
     CUSTOMER_KEYS = ["customers", "id", "name", "email"]
     ORDERS_KEYS = ["orders", "order_id",
                    "customer_id", "movie_id", "order_date"]
