@@ -1,20 +1,19 @@
 from utils.file_utils import FileUltils
 from models.customer import Customer
-from constants import constant
+from constants.constant import Constants
 
 
 class CustomerService:
     def insert_customer(self, customer_info: Customer):
         data = {
-            "id": customer_info.get_customer_id(),
-            "name": customer_info.get_name(),
-            "email": customer_info.get_email()
+            Constants.CUSTOMER_KEYS[1]: customer_info.get_customer_id(),
+            Constants.CUSTOMER_KEYS[2]: customer_info.get_name(),
+            Constants.CUSTOMER_KEYS[3]: customer_info.get_email()
         }
-        FileUltils.write_data(data, constant.CUSTOMER_RESOURCES_PATH)
+        FileUltils.write_customer_data(data)
 
     def select_customer(self, email: str) -> bool:
-        select_customer_email = FileUltils.get_data(email)
-        #print("Service: " + select_customer_email)
+        select_customer_email = FileUltils.read_customer_data(email)
         if (email == select_customer_email):
             return True
         return False

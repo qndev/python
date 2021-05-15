@@ -1,10 +1,13 @@
-import logging
-import logging.config
-from constants import constant
+from services.movie_service import MoveService
+from constants.constant import Constants
 from helpers import (customer_helper, print_helper)
+from config import Config
 
 
 def main():
+    logger = Config.logger(__name__)
+    logger.info("Started Application")
+
     print_helper.print_header()
     print_helper.print_options()
 
@@ -12,21 +15,26 @@ def main():
 
     while application_running:
         selected_option = input("Please select an option: ").strip()
-        if (selected_option in constant.OPTIONS):
+        if (selected_option in Constants.OPTIONS):
             application_running = False
         else:
-            #logger.error(f"Option {selected_option} can not resolved")
+            logger.error(f"Option {selected_option} can not resolved")
             print("Sorry please select correct the option (1 or 2)!")
 
-    if (selected_option == constant.OPTIONS[1]):
+    if (selected_option == Constants.OPTIONS[1]):
         print("Create your new account")
         customer_helper.set_customer_values()
 
-    if (selected_option == constant.OPTIONS[0]):
+    if (selected_option == Constants.OPTIONS[0]):
         print("Login")
         if(customer_helper.exists_customer()):
             print_helper.print_header()
             print_helper.print_movie_banner()
+
+            movie_service = MoveService()
+            movies = movie_service.select_movies()
+            if not bool(movies):
+                print("There are no films in the store!")
             return True
 
 

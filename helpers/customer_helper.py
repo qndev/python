@@ -2,12 +2,16 @@ import uuid
 from services.customer_service import CustomerService
 from utils.string_utils import StringUtils
 from models.customer import Customer
+from config import Config
 
 customer_service = CustomerService()
 
+logger = Config.logger(__name__)
+
 
 def set_customer_values():
-    customer = Customer()
+    logger.info("Helper class")
+    customer = Customer(None, None, None)
     creating_account = True
     while creating_account:
         creating_name = True
