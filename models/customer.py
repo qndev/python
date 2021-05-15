@@ -1,12 +1,9 @@
 class Customer:
-    def __init__(self, customer_id: str, name: str, email: str):
+    def __init__(self, customer_id: str, name: str, email: str, discount_points: int):
         self._customer_id = customer_id
         self._name = name
         self._email = email
-
-    """ _customer_id = None
-    _name = None
-    _email = None """
+        self._discount_points = discount_points
 
     def get_customer_id(self):
         return self._customer_id
@@ -26,7 +23,8 @@ class Customer:
     def set_email(self, email):
         self._email = email
 
-    """ def set_customer_values(self, customer_id, name, email):
-        self._customer_id = customer_id
-        self._name = name
-        self._email = email """
+    def get_discount_points(self):
+        return self._discount_points
+
+    def set_discount_points(self, discount_points):
+        self._discount_points = discount_points

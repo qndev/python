@@ -11,7 +11,7 @@ logger = Config.logger(__name__)
 
 def set_customer_values():
     logger.info("Helper class")
-    customer = Customer(None, None, None)
+    customer = Customer(None, None, None, None)
     creating_account = True
     while creating_account:
         creating_name = True

@@ -5,9 +5,11 @@ from helpers import (customer_helper, movie_helper, print_helper)
 from config import Config
 from utils.string_utils import StringUtils
 
+logger = Config.logger(__name__)
+
 
 def main():
-    logger = Config.logger(__name__)
+
     logger.info("Started Application")
 
     print_helper.print_header()
@@ -55,6 +57,16 @@ def authenticate_account():
         for movie in sliced_movies:
             print_helper.print_list_movies(movie, no)
             no = no + 1
+        print("+--------------------+-----------------------------+------------------------+--------------------+--------------------+")
+        order_confirm_flag = True
+        while order_confirm_flag:
+            order_confirmation = input("Do you wamt to order movies (Y/n): ")
+            if ((order_confirmation == "Y") or (order_confirmation == "y")):
+                order_movies()
+            if (order_confirmation == "n"):
+                order_confirm_flag = False
+                main()
+        return None
     else:
         print("Your email dose not exists!\nDo you want to continute (Y/n)")
         continue_application()
@@ -82,10 +94,44 @@ def continue_application():
             exit_application(continue_input)
 
 
+def order_movies():
+    ordering_flag = True
+    orders = []
+    print("Note: Confirm order complete movie whenever please enter 'yes' or 'exit' to cancel all movies ordered.")
+    while ordering_flag:
+        movie_orders = input(
+            "Please select movies yourself by choose Movie ID: ")
+        if ((movie_orders == "yes") & (not bool(orders))):
+            cancel = input(
+                "You have not yet ordered any movies, do you want to cancel (Y/n): ")
+            if (cancel == "Y"):
+                ordering_flag = False
+                main()
+        if ((movie_orders == "yes") & bool(orders)):
+            ordering_flag = False
+        if (movie_orders == "exit"):
+            if (bool(orders)):
+                cancel_ordered = input(
+                    "You orderd movies, Are you sure want to cancel (Y/n): ")
+                if (cancel_ordered == "Y"):
+                    ordering_flag = False
+                    main()
+                if (cancel_ordered == "n"):
+                    continue
+            ordering_flag = False
+            exit_application("n")
+        if ((movie_orders != "yes") and (movie_orders != "exit")):
+            orders.append(movie_orders)
+            print(orders)
+    print(orders)
+    return None
+
+
 def exit_application(confim: str):
     if (confim == "n"):
         print("Good bye!")
-    return 0
+        logger.info("Customer exited system")
+        exit()
 
 
 if __name__ == "__main__":
