@@ -1,8 +1,12 @@
+from models.customer import Customer
+from models.movie import Movie
+
+
 class Order:
-    def __init__(self, order_id: str, customer_id: str, movie_id: str, days_rental: float, discount: float, order_date: str):
+    def __init__(self, order_id: str, customer: Customer, movies: list(Movie), days_rental: float, discount: float, order_date: str):
         self._order_id = order_id
-        self._customer_id = customer_id
-        self._movie_id = movie_id
+        self._customer = customer
+        self._movies = movies
         self._days_rental = days_rental
         self._discount = discount
         self._order_date = order_date
@@ -13,17 +17,17 @@ class Order:
     def set_order_id(self, order_id):
         self._order_id = order_id
 
-    def get_customer_id(self):
-        return self._customer_id
+    def get_customer(self):
+        return self._customer
 
-    def set_customer_id(self, customer_id):
-        self._customer_id = customer_id
+    def set_customer(self, customer):
+        self._customer = customer
 
-    def get_movie_id(self):
-        return self._movie_id
+    def get_movies(self):
+        return self._movies
 
-    def set_movie_id(self, movie_id):
-        self._movie_id = movie_id
+    def set_movies(self, movies):
+        self._movies = movies
 
     def get_days_rental(self):
         return self._days_rental

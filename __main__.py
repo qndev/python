@@ -127,6 +127,14 @@ def order_movies():
     return None
 
 
+def payment_movies():
+    return 0
+
+
+def user_input(messages: str):
+    return input(messages)
+
+
 def exit_application(confim: str):
     if (confim == "n"):
         print("Good bye!")
