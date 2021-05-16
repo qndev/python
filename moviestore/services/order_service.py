@@ -12,18 +12,21 @@ class OrderService:
 
         return Order(None, None, None)
 
-    def export_invoice(self, customer_email) -> tuple:
+    def export_invoice(self, customer_email: str) -> tuple:
         customer_info = FileUltils.read_customer_data(customer_email, False)
-        customer_id = customer_info[Constants.ORDERS_KEYS[2]]
-        orders_info = FileUltils.read_orders_data(customer_id)
+        customer_id = customer_info["id"]
+        print(customer_id)
+        orders_info = FileUltils.read_orders_data(customer_id, "ORDER001")
         category_info = FileUltils.read_category_data()
+        print(orders_info.get_movies())
         movies_info = FileUltils.read_order_movies_data(
-            orders_info["movies"]["movie_ids"])
+            (orders_info.get_movies())["movie_ids"])
 
         invoice_data = []
 
         for movie_id in movies_info:
-            invoice = Invoice()
+            invoice = Invoice(None, None, None, None,
+                              None, None, None, None, None)
             invoice.set_movie_name(
                 movies_info[movie_id][Constants.MOVIE_KEYS[0]])
             invoice.set_category(
@@ -31,8 +34,8 @@ class OrderService:
             invoice.set_release_month(
                 movies_info[movie_id][Constants.MOVIE_KEYS[2]])
 
-            days_rental = float((orders_info["movies"]["days_rental"])[
-                orders_info["movies"]["movie_ids"].index(movie_id)])
+            days_rental = float((orders_info.get_movies()["days_rental"])[
+                orders_info.get_movies()["movie_ids"].index(movie_id)])
 
             invoice.set_days_rental(days_rental)
 
@@ -40,14 +43,20 @@ class OrderService:
 
             price = float(category_id["price"])
 
-            order_date_str = orders_info["order_date"]
+            order_date_str = orders_info.get_order_date()
 
             order_date = datetime.datetime.strptime(order_date_str, '%Y/%m/%d')
+
+            print(order_date)
+            print(order_date_str)
 
             release_month_str = movies_info[movie_id]["release_month"]
 
             release_month = datetime.datetime.strptime(
                 release_month_str, '%Y/%m')
+
+            print(release_month)
+            print(release_month_str)
 
             surcharge_new_movie = 0
 

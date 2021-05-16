@@ -1,3 +1,4 @@
+from moviestore.services.order_service import OrderService
 import os
 import uuid
 import tempfile
@@ -49,6 +50,9 @@ class Program:
         if (selected_option == Constants.OPTIONS[0]):
             self.authenticate_account()
 
+        if (selected_option == "3"):
+            self.get_innvoice("nguyen.dinh.quang@gmail.com")
+
         logger.info("Finished Application")
 
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
@@ -89,6 +93,11 @@ class Program:
         else:
             print("Your email dose not exists!\nDo you want to continute (Y/n)")
             self.continue_application()
+
+    def get_innvoice(self, email: str):
+        order_service = OrderService()
+        order_service.export_invoice(email)
+        self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def continue_application(self):
         continue_flag = True

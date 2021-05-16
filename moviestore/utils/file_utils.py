@@ -1,4 +1,5 @@
 import json
+from moviestore.models.movie import Movie
 from moviestore.models.order import Order
 from typing import Union
 from moviestore.configs.configure_application import ConfigureApplication
@@ -89,26 +90,27 @@ class FileUltils:
             return e
 
     @staticmethod
-    def read_orders_data(customer_id: str, order_id: str) -> Union[dict, FileNotFoundError, Exception]:
-        orders_data = {}
+    def read_orders_data(customer_id: str, order_id: str) -> Union[Order, FileNotFoundError, Exception]:
+        orders_data = []
         try:
             with open(Constants.CUSTOMER_RESOURCES_PATH, "r") as customer_file:
                 data = json.load(customer_file)
+                # print(data)
                 orders_data = data[Constants.ORDERS_KEYS[0]]
+                # print(orders_data)
                 for order_item in orders_data:
+                    # print(order_item)
                     if ((order_item[Constants.ORDERS_KEYS[2]] == customer_id) & (order_item["order_id"] == order_id)):
                         order = Order(None, None, None)
                         movies = {
-                            "movie_id": [
-                                order_item["movies"]["movie_ids"]
-                            ],
-                            "days_rental": [
-                                order_item["movies"]["days_rental"]
-                            ]
+                            "movie_ids": (order_item["movies"])["movie_ids"],
+                            "days_rental": (order_item["movies"])["days_rental"]
                         }
+                        # print(movies)
                         order.set_order_id(order_item["order_id"])
                         order.set_movies(movies)
                         order.set_order_date(order_item["order_date"])
+                        # print(order.get_movies())
                         return order
         except FileNotFoundError as fnf:
             logger.error(fnf)
@@ -136,14 +138,24 @@ class FileUltils:
             return e
 
     @staticmethod
-    def read_order_movies_data(movie_ids: list) -> Union[dict, FileNotFoundError, Exception]:
+    def read_order_movies_data(movie_ids: list) -> Union[Movie, FileNotFoundError, Exception]:
         movie_data = {}
+        # print(movie_ids)
         try:
             with open(Constants.MOVIE_RESOURCES_PATH, "r") as movie_file:
                 movie_data = json.load(movie_file)
+                print("ssssssssssssssssssssssssssssssssssssssssssss")
+                print(movie_data)
                 for movie_id in movie_data:
+                    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    print(movie_id)
                     if (movie_id not in movie_ids):
                         movie_data.pop(movie_id)
+                        print(movie_ids)
+                        print(movie_data)
+
+            print("ssssssssssssssssssssssssssssssssssssssssssss")
+            print(movie_data)
             return movie_data
         except FileNotFoundError as fnf:
             logger.error(fnf)
@@ -198,4 +210,85 @@ class FileUltils:
             "movie_id": "MOV005",
             "days_rental": "3",
             "order_date": "2021/05/13"
+        } """
+
+        """ {
+            "id": "CUS0002",
+            "name": "Nguyen Van A",
+            "email": "nguyen.van.a@gmail.com"
+        },
+        {
+            "id": "CUS0003",
+            "name": "Nguyen Van B",
+            "email": "nguyen.van.b@gmail.com"
+        },
+        {
+            "id": "CUS-f78b2c5e-b4be-11eb-bf7d-f8cab83d2a5c",
+            "name": "Nguyen Van C",
+            "email": "nguyen.van.c@gmail.com"
+        },
+        {
+            "id": "CUS-fac51c58-b4bf-11eb-bf7d-f8cab83d2a5c",
+            "name": "Nguyen Van D",
+            "email": "nguyen.van.d@gmail.com"
+        },
+        {
+            "id": "CUS-7a48401c-b4cb-11eb-bf7d-f8cab83d2a5c",
+            "name": "test",
+            "email": "test"
+        },
+        {
+            "id": "cs400881-60def8f4-b521-11eb-b3c5-f8cab83d2a5c",
+            "name": "Dinh Quang",
+            "email": "test@gmail.com"
+        },
+        {
+            "id": "cs400881-9b988cbc-b521-11eb-b3c5-f8cab83d2a5c",
+            "name": "asdf",
+            "email": "asd"
+        },
+        {
+            "id": "cs400881-aaf8611e-b521-11eb-b3c5-f8cab83d2a5c",
+            "name": "sdfsadfs",
+            "email": "sadf"
+        },
+        {
+            "id": "cs400881-00ef3824-b525-11eb-b3c5-f8cab83d2a5c",
+            "name": "rtuyrtyrty",
+            "email": "rtyr"
+        },
+        {
+            "id": "cs400881-f0227a82-b525-11eb-b3c5-f8cab83d2a5c",
+            "name": "gd",
+            "email": "gd"
+        },
+        {
+            "id": "cs400881-18b9f72c-b526-11eb-b3c5-f8cab83d2a5c",
+            "name": "dfg",
+            "email": "dfg"
+        },
+        {
+            "id": "cs400881-270f93e0-b526-11eb-b3c5-f8cab83d2a5c",
+            "name": "asd",
+            "email": "asd"
+        },
+        {
+            "id": "cs400881-8d459c48-b578-11eb-b3c5-f8cab83d2a5c",
+            "name": "sfs",
+            "email": "sdfsfsfsfsdf"
+        },
+        {
+            "id": "cs400881-d73923ec-b578-11eb-b3c5-f8cab83d2a5c",
+            "name": "eeee",
+            "email": "eeee"
+        },
+        {
+            "id": "cs400881-e2730e6c-b578-11eb-b3c5-f8cab83d2a5c",
+            "name": "aa",
+            "email": "aa"
+        },
+        {
+            "id": "cs400881-3fbacf0a-b647-11eb-a191-f8cab83d2a5c",
+            "name": "aa",
+            "email": "asdasdasdasdasdaaaaaaaaaaaaaaaaaaaaaaaaaa"
         } """
