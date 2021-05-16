@@ -2,26 +2,26 @@
     "MOV001": {
         "name": "Thương nhớ đồng quê",
         "category_id": "CATE002",
-        "release_month": "2021/05"
+        "release_month": "2021/04"
     },
     "MOV002": {
         "name": "Đồng quê xào xạc",
-        "category_id": "CATE002",
-        "release_month": "2021/04"
+        "category_id": "CATE001",
+        "release_month": "2021/05"
     },
     "MOV003": {
         "name": "Dời nhà lên phố",
         "category_id": "CATE002",
-        "release_month": "2021/07"
+        "release_month": "2021/04"
     },
     "MOV004": {
         "name": "Đất và người",
-        "category_id": "CATE002",
-        "release_month": "2021/08"
+        "category_id": "CATE003",
+        "release_month": "2021/02"
     },
     "MOV005": {
-        "name": "Thương nhớ đồng quê",
-        "category_id": "CATE002",
+        "name": "Sóng ở đáy sông",
+        "category_id": "CATE003",
         "release_month": "2021/03"
     }
 }

@@ -12,8 +12,8 @@ class CustomerService:
         }
         FileUltils.write_customer_data(data)
 
-    def select_customer(self, email: str) -> bool:
-        select_customer_email = FileUltils.read_customer_data(email)
-        if (email == select_customer_email):
+    def select_customer_email(self, email: str) -> bool:
+        customer_email = FileUltils.read_customer_email(email)
+        if (email == customer_email):
             return True
         return False

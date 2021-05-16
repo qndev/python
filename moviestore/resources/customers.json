@@ -3,7 +3,8 @@
         {
             "id": "CUS0001",
             "name": "Nguyen Dinh Quang",
-            "email": "nguyen.dinh.quang@usol-v.com.vn"
+            "email": "nguyen.dinh.quang@usol-v.com.vn",
+            "discount_points": 187
         },
         {
             "id": "CUS0002",
@@ -90,15 +91,10 @@
         {
             "order_id": "ORDER001",
             "customer_id": "CUS0001",
-            "movie_id": "MOV001",
-            "days_rental": "3",
-            "order_date": "2021/05/12"
-        },
-        {
-            "order_id": "ORDER002",
-            "customer_id": "CUS0002",
-            "movie_id": "MOV001",
-            "days_rental": "3",
+            "movies": {
+                "movie_ids": ["MOV001", "MOV002", "MOV003", "MOV004", "MOV005"],
+                "days_rental": [3, 45, 3, 30, 3]
+            },
             "order_date": "2021/05/13"
         }
     ]

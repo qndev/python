@@ -37,7 +37,7 @@ def exists_customer() -> bool:
         imput_email = input("Please enter your email: ")
         if ((StringUtils.check_for_blanks(imput_email)) == False):
             logging_in = False
-    exists_customer = customer_service.select_customer(imput_email)
+    exists_customer = customer_service.select_customer_email(imput_email)
     if (exists_customer):
         return True
     return False

@@ -15,8 +15,10 @@ class Constants:
     EMPTY_STRING = ""
     ERROR_MESSAGES = "Some thing went wrong, please contact to administrator to fix this!"
     CUSTOMER_KEYS = ["customers", "id", "name", "email"]
-    ORDERS_KEYS = ["orders", "order_id",
-                   "customer_id", "movie_id", "order_date"]
+    ORDERS_KEYS = ["orders", "order_id", "customer_id", "customer",
+                   "movies", "days_rental", "discount", "order_date"]
+    # ORDERS_KEYS = ["orders", "order_id",
+    #                "customer_id", "movie_id", "order_date"]
     MOVIE_KEYS = ["name", "category_id", "release_month"]
     CATEGORY_KEYS = ["name", "price", "description"]
     MOVIE_SCREEN_DISPLAY = [17, 28, 23, 19, 19]
