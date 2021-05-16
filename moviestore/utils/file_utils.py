@@ -1,13 +1,14 @@
 import json
-from config import Config
-from constants.constant import Constants
+from typing import Union
+from moviestore.configs.configure_application import ConfigureApplication
+from moviestore.constants.constant import Constants
 
 
 class FileUltils:
 
     @staticmethod
-    def write_customer_data(model: dict):
-        logger = Config.logger(__name__)
+    def write_customer_data(model: dict) -> Union[bool, FileNotFoundError, Exception]:
+        logger = ConfigureApplication.logger(__name__)
         try:
             with open(Constants.CUSTOMER_RESOURCES_PATH) as file:
                 data = json.load(file)
@@ -15,16 +16,19 @@ class FileUltils:
                 temp.append(model)
             with open(Constants.CUSTOMER_RESOURCES_PATH, "w") as file:
                 json.dump(data, file, indent=4)
+            return True
         except FileNotFoundError as fnf:
             logger.error(fnf)
             print(Constants.ERROR_MESSAGES)
+            return fnf
         except Exception as e:
             logger.error(e)
             print(Constants.ERROR_MESSAGES)
+            return e
 
     @staticmethod
-    def read_customer_data(email: str) -> str:
-        logger = Config.logger(__name__)
+    def read_customer_data(email: str) -> Union[str, FileNotFoundError, Exception]:
+        logger = ConfigureApplication.logger(__name__)
         try:
             with open(Constants.CUSTOMER_RESOURCES_PATH) as file:
                 data = json.load(file)
@@ -34,15 +38,17 @@ class FileUltils:
                         return email
                 return Constants.EMPTY_STRING
         except FileNotFoundError as fnf:
-            print(Constants.ERROR_MESSAGES)
             logger.error(fnf)
+            print(Constants.ERROR_MESSAGES)
+            return fnf
         except Exception as e:
             logger.error(e)
             print(Constants.ERROR_MESSAGES)
+            return e
 
     @staticmethod
-    def read_movies_data() -> tuple:
-        logger = Config.logger(__name__)
+    def read_movies_data() -> Union[tuple, FileNotFoundError, Exception]:
+        logger = ConfigureApplication.logger(__name__)
         movie_data = {}
         category_data = {}
         try:
@@ -54,6 +60,8 @@ class FileUltils:
         except FileNotFoundError as fnf:
             logger.error(fnf)
             print(Constants.ERROR_MESSAGES)
+            return fnf
         except Exception as e:
             logger.error(e)
             print(Constants.ERROR_MESSAGES)
+            return e

@@ -1,4 +1,4 @@
-from models.category import Category
+from moviestore.models.category import Category
 
 
 class Movie:

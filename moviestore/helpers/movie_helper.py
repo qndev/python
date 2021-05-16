@@ -1,4 +1,4 @@
-from constants.constant import Constants
+from moviestore.constants.constant import Constants
 
 
 def slice_string(movies: list) -> list:

@@ -1,6 +1,6 @@
-from utils.file_utils import FileUltils
-from models.customer import Customer
-from constants.constant import Constants
+from moviestore.models.customer import Customer
+from moviestore.utils.file_utils import FileUltils
+from moviestore.constants.constant import Constants
 
 
 class CustomerService:

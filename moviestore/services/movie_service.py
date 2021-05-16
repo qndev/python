@@ -1,7 +1,7 @@
-from utils.file_utils import FileUltils
-from constants.constant import Constants
-from models.movie import Movie
-from models.category import Category
+from moviestore.models.movie import Movie
+from moviestore.models.category import Category
+from moviestore.utils.file_utils import FileUltils
+from moviestore.constants.constant import Constants
 
 
 class MoveService:

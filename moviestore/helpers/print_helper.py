@@ -1,5 +1,4 @@
-from models.movie import Movie
-from constants.constant import Constants
+from moviestore.models.movie import Movie
 
 
 def print_header():

@@ -1,9 +1,8 @@
-from models.customer import Customer
-from models.movie import Movie
+from moviestore.models.customer import Customer
 
 
 class Order:
-    def __init__(self, order_id: str, customer: Customer, movies: list(Movie), days_rental: float, discount: float, order_date: str):
+    def __init__(self, order_id: str, customer: Customer, movies: list, days_rental: float, discount: float, order_date: str):
         self._order_id = order_id
         self._customer = customer
         self._movies = movies

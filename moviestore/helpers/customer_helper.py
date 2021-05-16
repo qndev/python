@@ -1,12 +1,12 @@
 import uuid
-from services.customer_service import CustomerService
-from utils.string_utils import StringUtils
-from models.customer import Customer
-from config import Config
+from moviestore.models.customer import Customer
+from moviestore.utils.string_utils import StringUtils
+from moviestore.services.customer_service import CustomerService
+from moviestore.configs.configure_application import ConfigureApplication
 
 customer_service = CustomerService()
 
-logger = Config.logger(__name__)
+logger = ConfigureApplication.logger(__name__)
 
 
 def set_customer_values():

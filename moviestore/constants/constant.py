@@ -9,9 +9,9 @@ class Constants:
     EXTRA_NEW_FEES = [1.0, 1.0, 3.0]
     EXTRA_DAY_FEES = [1.5, 1.0, 3.0]
     OPTIONS = ["1", "2"]
-    CUSTOMER_RESOURCES_PATH = "/home/quangnd/Python/python-training/resources/customers.json"
-    MOVIE_RESOURCES_PATH = "/home/quangnd/Python/python-training/resources/movies.json"
-    CATEGORY_RESOURCES_PATH = "/home/quangnd/Python/python-training/resources/categories.json"
+    CUSTOMER_RESOURCES_PATH = "/home/quangnd/Python/python-training/moviestore/resources/customers.json"
+    MOVIE_RESOURCES_PATH = "/home/quangnd/Python/python-training/moviestore/resources/movies.json"
+    CATEGORY_RESOURCES_PATH = "/home/quangnd/Python/python-training/moviestore/resources/categories.json"
     EMPTY_STRING = ""
     ERROR_MESSAGES = "Some thing went wrong, please contact to administrator to fix this!"
     CUSTOMER_KEYS = ["customers", "id", "name", "email"]
@@ -21,3 +21,5 @@ class Constants:
     CATEGORY_KEYS = ["name", "price", "description"]
     MOVIE_SCREEN_DISPLAY = [17, 28, 23, 19, 19]
     INDEX = 0
+    CONFIRM_EXITING_APPLICATION = "n"
+    EXIT_APPLICATION = "n"
