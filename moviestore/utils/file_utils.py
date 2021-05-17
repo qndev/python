@@ -144,17 +144,17 @@ class FileUltils:
         try:
             with open(Constants.MOVIE_RESOURCES_PATH, "r") as movie_file:
                 movie_data = json.load(movie_file)
-                print("ssssssssssssssssssssssssssssssssssssssssssss")
-                print(movie_data)
+                # print("ssssssssssssssssssssssssssssssssssssssssssss")
+                # print(movie_data)
                 for movie_id in movie_data:
-                    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                    print(movie_id)
+                    # print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                    # print(movie_id)
                     if (movie_id not in movie_ids):
                         movie_data.pop(movie_id)
-                        print(movie_ids)
-                        print(movie_data)
+                        # print(movie_ids)
+                        # print(movie_data)
 
-            print("ssssssssssssssssssssssssssssssssssssssssssss")
+            print("TESSTSTSTTSTSTSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
             print(movie_data)
             return movie_data
         except FileNotFoundError as fnf:
