@@ -9,27 +9,27 @@ from moviestore.configs.configure_application import ConfigureApplication
 
 
 class Program:
-    """ dir_path = os.path.dirname(os.path.realpath(__file__))
-    separator_temp_filename = "-"
-    session_user_id = str(uuid.uuid1())
-    prefix_file_name = session_user_id + separator_temp_filename
-    temp_dir = dir_path + "/temp"
-    tempfile.tempdir = temp_dir
-    temp_file = tempfile.NamedTemporaryFile(mode="w+",
-                                            prefix=prefix_file_name,
-                                            dir=temp_dir,
-                                            delete=False)
-    print("Current temp directory:", tempfile.gettempdir())
-    temp_file.write(session_user_id)
-    temp_file.seek(0)
-    print(temp_file.read())
-    temp_file.close()
-    os.unlink(temp_file.name)
-    os.path.exists(temp_file.name) """
 
-    def execute(self):
+    def execute(self, root_dir: str):
         logger = ConfigureApplication.logger(__name__)
         logger.info("Started Application")
+
+        separator_temp_filename = "-"
+        session_user_id = str(uuid.uuid1())
+        prefix_file_name = session_user_id + separator_temp_filename
+        temp_dir = root_dir + "/moviestore/temp"
+        tempfile.tempdir = temp_dir
+        temp_file = tempfile.NamedTemporaryFile(mode="w+",
+                                                prefix=prefix_file_name,
+                                                dir=temp_dir,
+                                                delete=False)
+        print("Current temp directory:", tempfile.gettempdir())
+        temp_file.write(session_user_id)
+        temp_file.seek(0)
+        print(temp_file.read())
+        temp_file.close()
+        # os.unlink(temp_file.name)
+        # os.path.exists(temp_file.name)
 
         print_helper.print_header()
         print_helper.print_options()
