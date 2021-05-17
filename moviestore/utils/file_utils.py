@@ -1,5 +1,6 @@
 import json
 import copy
+from moviestore.models.customer import Customer
 from moviestore.models.movie import Movie
 from moviestore.models.order import Order
 from typing import Union
@@ -96,22 +97,17 @@ class FileUltils:
         try:
             with open(Constants.CUSTOMER_RESOURCES_PATH, "r") as customer_file:
                 data = json.load(customer_file)
-                # print(data)
                 orders_data = data[Constants.ORDERS_KEYS[0]]
-                # print(orders_data)
                 for order_item in orders_data:
-                    # print(order_item)
                     if ((order_item[Constants.ORDERS_KEYS[2]] == customer_id) & (order_item["order_id"] == order_id)):
                         order = Order(None, None, None)
                         movies = {
                             "movie_ids": (order_item["movies"])["movie_ids"],
                             "days_rental": (order_item["movies"])["days_rental"]
                         }
-                        # print(movies)
                         order.set_order_id(order_item["order_id"])
                         order.set_movies(movies)
                         order.set_order_date(order_item["order_date"])
-                        # print(order.get_movies())
                         customer_file.close()
                         return order
         except FileNotFoundError as fnf:
@@ -141,26 +137,14 @@ class FileUltils:
 
     @staticmethod
     def read_order_movies_data(movie_ids: list) -> Union[dict, FileNotFoundError, Exception]:
-        # print(movie_ids)
         order_movies_data = {}
         try:
             with open(Constants.MOVIE_RESOURCES_PATH, "r") as movie_file:
                 movie_data = json.load(movie_file)
                 order_movies_data = copy.deepcopy(movie_data)
-                print("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
-                print(order_movies_data)
                 for movie_id in movie_data:
-                    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-                    print(movie_id)
-                    print(movie_ids)
                     if (movie_id not in movie_ids):
                         order_movies_data.pop(movie_id)
-                        # print(movie_ids)
-                        print(order_movies_data)
-                        print(movie_data)
-
-            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-            print(order_movies_data)
             return order_movies_data
         except FileNotFoundError as fnf:
             logger.error(fnf)

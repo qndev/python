@@ -1,8 +1,9 @@
 import datetime
 import math
+from moviestore.models.customer import Customer
 from moviestore.models.invoice import Invoice
 from moviestore.constants.constant import Constants
-from typing import List
+from typing import List, Tuple
 from moviestore.models.order import Order
 from moviestore.utils.file_utils import FileUltils
 
@@ -12,13 +13,12 @@ class OrderService:
 
         return Order(None, None, None)
 
-    def export_invoice(self, customer_email: str) -> tuple:
+    def export_invoice(self, customer_email: str) -> Tuple[Customer, List[Invoice]]:
+        customer_info = {}
         customer_info = FileUltils.read_customer_data(customer_email, False)
         customer_id = customer_info["id"]
-        print(customer_id)
         orders_info = FileUltils.read_orders_data(customer_id, "ORDER001")
         category_info = FileUltils.read_category_data()
-        print(type((orders_info.get_movies())["movie_ids"]))
         movies_info = FileUltils.read_order_movies_data(
             (orders_info.get_movies())["movie_ids"])
 
@@ -43,19 +43,13 @@ class OrderService:
             days_rental = float((orders_info.get_movies()["days_rental"])[
                 orders_info.get_movies()["movie_ids"].index(movie_id)])
 
-            print(
-                "Day rental ---------------------------------------------------------------")
-            print(type(days_rental))
-            print(days_rental)
-
             invoice.set_days_rental(days_rental)
 
             category_id = movies_info[movie_id]["category_id"]
 
-            print("Category ID: ")
-            print(category_id)
-
             price = float(category_info[category_id]["price"])
+
+            invoice.set_price(price)
 
             order_date_str = orders_info.get_order_date()
             release_month_str = movies_info[movie_id]["release_month"]
@@ -83,7 +77,6 @@ class OrderService:
                     new_movie = True
                 else:
                     new_movie = False
-            print(new_movie)
             if (new_movie):
                 if (category_id == "CATE001"):
                     if (days_rental > 3):
@@ -99,8 +92,6 @@ class OrderService:
                     if (days_rental > 2):
                         surcharge_days = surcharge_days + \
                             (days_rental - 2)*3
-                        print("surcharge_days TEST")
-                        print(surcharge_days)
                     surcharge_new_movie = surcharge_new_movie + 3
             else:
                 if ((category_id == "CATE001") & (days_rental > 3)):
@@ -113,18 +104,11 @@ class OrderService:
                     surcharge_days = surcharge_days + \
                         (days_rental - 2)*3
 
-            print("surcharge_new_movie")
-            print(surcharge_new_movie)
+            invoice.set_surcharge_new_movie(surcharge_new_movie)
 
-            print("surcharge_days")
-            print(surcharge_days)
+            invoice.set_surcharge_days(surcharge_days)
 
             total_price = price + surcharge_new_movie + surcharge_days
-
-            print("Price: ")
-            print(total_price)
-
-            invoice.set_total_pay(total_price)
 
             total_prices = total_prices + total_price
 
@@ -140,17 +124,6 @@ class OrderService:
             discount = discount + discount_extra_50
         else:
             discount = discount + math.floor(discount_points/100)*5
-            print("Discount ssssssssssssssssssssssssssssssssssssssssssssdfgfffffffffffffffffffffffffffffffffffffffffff: ")
-            print(discount)
-
-        print("Total Discount: ")
-        print(discount)
-
-        print("Total Price: ")
-        print(total_prices)
-
-        print("Total Pay before discount: ")
-        print(total_pays)
 
         if (discount > 20):
             discount = 10
@@ -161,11 +134,9 @@ class OrderService:
         if (discount > 0):
             total_pays = total_pays - (discount*total_prices)/100
 
-        print("Total Pay After Discount: ")
-        print(total_pays)
+        invoice.set_total_pay(total_pays)
 
-        print("Total Discount: ")
-        print(discount)
+        invoice.set_discount(discount)
 
         discount_points_after_pay = 0
 

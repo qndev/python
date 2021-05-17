@@ -53,8 +53,6 @@ class Program:
         if (selected_option == "3"):
             self.get_innvoice("nguyen.dinh.quang@gmail.com")
 
-        logger.info("Finished Application")
-
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def create_account(self):
@@ -79,7 +77,6 @@ class Program:
             for movie in sliced_movies:
                 print_helper.print_list_movies(movie, no)
                 no = no + 1
-            print("+--------------------+-----------------------------+------------------------+--------------------+--------------------+")
             order_confirm_flag = True
             while order_confirm_flag:
                 order_confirmation = input(
@@ -88,7 +85,7 @@ class Program:
                     self.order_movies()
                 if (order_confirmation == "n"):
                     order_confirm_flag = False
-                    self.execute()
+                    self.execute("")
             return None
         else:
             print("Your email dose not exists!\nDo you want to continute (Y/n)")
@@ -96,7 +93,8 @@ class Program:
 
     def get_innvoice(self, email: str):
         order_service = OrderService()
-        order_service.export_invoice(email)
+        customer_details, invoice = order_service.export_invoice(email)
+        print_helper.print_invoice(customer_details, invoice)
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def continue_application(self):
@@ -132,7 +130,7 @@ class Program:
                     "You have not yet ordered any movies, do you want to cancel (Y/n): ")
                 if (cancel == "Y"):
                     ordering_flag = False
-                    self.execute()
+                    self.execute("")
             if ((movie_orders == "yes") & bool(orders)):
                 ordering_flag = False
             if (movie_orders == "exit"):
@@ -141,7 +139,7 @@ class Program:
                         "You orderd movies, Are you sure want to cancel (Y/n): ")
                     if (cancel_ordered == "Y"):
                         ordering_flag = False
-                        self.execute()
+                        self.execute("")
                     if (cancel_ordered == "n"):
                         continue
                 ordering_flag = False
