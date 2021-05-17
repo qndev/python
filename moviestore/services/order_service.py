@@ -18,7 +18,7 @@ class OrderService:
         print(customer_id)
         orders_info = FileUltils.read_orders_data(customer_id, "ORDER001")
         category_info = FileUltils.read_category_data()
-        print(orders_info.get_movies())
+        print(type((orders_info.get_movies())["movie_ids"]))
         movies_info = FileUltils.read_order_movies_data(
             (orders_info.get_movies())["movie_ids"])
 
@@ -28,7 +28,7 @@ class OrderService:
 
         total_pays = 0.0
 
-        total_discount = 0
+        discount = 0
 
         for movie_id in movies_info:
             invoice = Invoice(None, None, None, None,
@@ -43,7 +43,8 @@ class OrderService:
             days_rental = float((orders_info.get_movies()["days_rental"])[
                 orders_info.get_movies()["movie_ids"].index(movie_id)])
 
-            print("Day rental")
+            print(
+                "Day rental ---------------------------------------------------------------")
             print(type(days_rental))
             print(days_rental)
 
@@ -85,29 +86,37 @@ class OrderService:
             print(new_movie)
             if (new_movie):
                 if (category_id == "CATE001"):
-                    if (days_rental > float(3)):
+                    if (days_rental > 3):
                         surcharge_days = surcharge_days + \
-                            (days_rental - float(3))*1.5
+                            (days_rental - 3)*1
                     surcharge_new_movie = surcharge_new_movie + 1
                 if (category_id == "CATE002"):
-                    if (days_rental > float(5)):
+                    if (days_rental > 5):
                         surcharge_days = surcharge_days + \
-                            (days_rental - float(5))*1.0
+                            (days_rental - 5)*1
                     surcharge_new_movie = surcharge_new_movie + 1
                 if (category_id == "CATE003"):
-                    if (days_rental > float(2)):
+                    if (days_rental > 2):
                         surcharge_days = surcharge_days + \
-                            (days_rental - float(2))*3.0
+                            (days_rental - 2)*3
+                        print("surcharge_days TEST")
+                        print(surcharge_days)
                     surcharge_new_movie = surcharge_new_movie + 3
+            else:
+                if ((category_id == "CATE001") & (days_rental > 3)):
+                    surcharge_days = surcharge_days + \
+                        (days_rental - 3)*1
+                if ((category_id == "CATE002") & (days_rental > 5)):
+                    surcharge_days = surcharge_days + \
+                        (days_rental - 5)*1
+                if ((category_id == "CATE003") & (days_rental > 2)):
+                    surcharge_days = surcharge_days + \
+                        (days_rental - 2)*3
 
-            invoice.set_surcharge_new_movie(surcharge_new_movie)
-
-            invoice.set_surcharge_days(surcharge_days)
-
-            print("DXXXXXXXXXXXXXXXXXXXXXX")
+            print("surcharge_new_movie")
             print(surcharge_new_movie)
 
-            print("DXXXXXXXXXXXXXXXXXXXXXX")
+            print("surcharge_days")
             print(surcharge_days)
 
             total_price = price + surcharge_new_movie + surcharge_days
@@ -117,41 +126,46 @@ class OrderService:
 
             invoice.set_total_pay(total_price)
 
-            discount = 0
-
-            discount_points = int(customer_info["discount_points"])
-
-            if (discount_points > 200):
-                discount = 10
-                discount_extra_50 = math.ceil((discount_points - 200)/50)*1
-                discount = discount + discount_extra_50
-
-            if (discount > 20):
-                discount = 20
-
-            if (total_price > 500):
-                discount = 10
-
             total_prices = total_prices + total_price
 
-            total_pays = total_pays + total_price
-
-            total_discount = total_discount + discount
-
-            # invoice.set_total_pay(total_pay)
-
-            invoice.set_discount(discount)
+            total_pays = total_prices
 
             invoice_data.append(invoice)
 
-        if (total_discount > 0):
-            total_pays = total_pays - (total_discount*total_price)/100
+        discount_points = int(customer_info["discount_points"])
+
+        if (discount_points > 200):
+            discount = 10
+            discount_extra_50 = math.floor((discount_points - 200)/50)*1
+            discount = discount + discount_extra_50
+        else:
+            discount = discount + math.floor(discount_points/100)*5
+            print("Discount ssssssssssssssssssssssssssssssssssssssssssssdfgfffffffffffffffffffffffffffffffffffffffffff: ")
+            print(discount)
+
+        print("Total Discount: ")
+        print(discount)
 
         print("Total Price: ")
         print(total_prices)
 
-        print("Total Pay: ")
+        print("Total Pay before discount: ")
         print(total_pays)
+
+        if (discount > 20):
+            discount = 10
+
+        if (total_pays > 500):
+            discount = 10
+
+        if (discount > 0):
+            total_pays = total_pays - (discount*total_prices)/100
+
+        print("Total Pay After Discount: ")
+        print(total_pays)
+
+        print("Total Discount: ")
+        print(discount)
 
         discount_points_after_pay = 0
 
@@ -160,4 +174,4 @@ class OrderService:
             discount_points_after_pay = discount_points_after_pay + \
                 math.ceil((total_pays - 100)*5)
 
-        return customer_info, invoice
+        return customer_info, invoice_data

@@ -1,4 +1,5 @@
 import json
+import copy
 from moviestore.models.movie import Movie
 from moviestore.models.order import Order
 from typing import Union
@@ -111,6 +112,7 @@ class FileUltils:
                         order.set_movies(movies)
                         order.set_order_date(order_item["order_date"])
                         # print(order.get_movies())
+                        customer_file.close()
                         return order
         except FileNotFoundError as fnf:
             logger.error(fnf)
@@ -138,25 +140,28 @@ class FileUltils:
             return e
 
     @staticmethod
-    def read_order_movies_data(movie_ids: list) -> Union[Movie, FileNotFoundError, Exception]:
-        movie_data = {}
+    def read_order_movies_data(movie_ids: list) -> Union[dict, FileNotFoundError, Exception]:
         # print(movie_ids)
+        order_movies_data = {}
         try:
             with open(Constants.MOVIE_RESOURCES_PATH, "r") as movie_file:
                 movie_data = json.load(movie_file)
-                # print("ssssssssssssssssssssssssssssssssssssssssssss")
-                # print(movie_data)
+                order_movies_data = copy.deepcopy(movie_data)
+                print("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
+                print(order_movies_data)
                 for movie_id in movie_data:
-                    # print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                    # print(movie_id)
+                    print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+                    print(movie_id)
+                    print(movie_ids)
                     if (movie_id not in movie_ids):
-                        movie_data.pop(movie_id)
+                        order_movies_data.pop(movie_id)
                         # print(movie_ids)
-                        # print(movie_data)
+                        print(order_movies_data)
+                        print(movie_data)
 
-            print("TESSTSTSTTSTSTSTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
-            print(movie_data)
-            return movie_data
+            print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+            print(order_movies_data)
+            return order_movies_data
         except FileNotFoundError as fnf:
             logger.error(fnf)
             print(Constants.ERROR_MESSAGES)
