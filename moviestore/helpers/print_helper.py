@@ -114,7 +114,7 @@ def print_invoice(customer: dict, invoices: List[Invoice]):
 
     for data_raw in table_data:
         print(
-            f"|{data_raw[0]:<{column_sizes[0]}}|{data_raw[1]:<{column_sizes[1]}}|{data_raw[2]:<{column_sizes[2]}}|{data_raw[3]:<{column_sizes[3]}}|{data_raw[4]:<{column_sizes[4]}}|{data_raw[5]:<{column_sizes[5]}}|{data_raw[6]:<{column_sizes[6]}}|{data_raw[7]:<{column_sizes[7]}}|".format(*data_raw))
+            f"|{data_raw[0]:<{column_sizes[0]}}|{data_raw[1]:<{column_sizes[1]}}|{data_raw[2]:<{column_sizes[2]}}|{data_raw[3]:<{column_sizes[3]}}|{data_raw[4]:<{column_sizes[4]}}|{data_raw[5]:<{column_sizes[5]}}|{data_raw[6]:<{column_sizes[6]}}|{data_raw[7]:<{column_sizes[7]}}|")
 
     print("\nDiscount: " +
           str(invoices[discount_index].get_discount()) + "%")
