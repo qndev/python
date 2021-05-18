@@ -1,9 +1,9 @@
-from moviestore.services.order_service import OrderService
 import os
 import uuid
 import tempfile
 from moviestore.constants.constant import Constants
 from moviestore.services.movie_service import MoveService
+from moviestore.services.order_service import OrderService
 from moviestore.helpers import (customer_helper, movie_helper, print_helper)
 from moviestore.configs.configure_application import ConfigureApplication
 
@@ -54,7 +54,7 @@ class Program:
             self.authenticate_account()
 
         if (selected_option == "3"):
-            self.get_innvoice("nguyen.dinh.quang@gmail.com")
+            self.get_innvoice("test")
 
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
@@ -83,7 +83,7 @@ class Program:
             order_confirm_flag = True
             while order_confirm_flag:
                 order_confirmation = input(
-                    "Do you wamt to order movies (Y/n): ")
+                    "Do you want to order movies (Y/n): ")
                 if ((order_confirmation == "Y") or (order_confirmation == "y")):
                     self.order_movies()
                 if (order_confirmation == "n"):
@@ -91,8 +91,8 @@ class Program:
                     self.execute()
             return None
         else:
-            print("Your email dose not exists!\nDo you want to continute (Y/n)")
-            self.continue_application()
+            print("Your email dose not exists!\nPlease input correct your email address:")
+            self.authenticate_account()
 
     def get_innvoice(self, email: str):
         order_service = OrderService()
@@ -124,6 +124,7 @@ class Program:
     def order_movies(self):
         ordering_flag = True
         orders = []
+        day_rentals = []
         print("Note: Confirm order complete movie whenever please enter 'yes' or 'exit' to cancel all movies ordered.")
         while ordering_flag:
             movie_orders = input(
@@ -136,6 +137,7 @@ class Program:
                     self.execute()
             if ((movie_orders == "yes") & bool(orders)):
                 ordering_flag = False
+                self.make_order(orders, day_rentals)
             if (movie_orders == "exit"):
                 if (bool(orders)):
                     cancel_ordered = input(
@@ -146,15 +148,40 @@ class Program:
                     if (cancel_ordered == "n"):
                         continue
                 ordering_flag = False
-                self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
+                self.execute()
             if ((movie_orders != "yes") and (movie_orders != "exit")):
-                orders.append(movie_orders)
-                print(orders)
+                if (self.validate_movie_input(movie_orders)):
+                    orders.append(movie_orders)
+                    valid_day_flag = True
+                    while valid_day_flag:
+                        day_rental = input(
+                            "Enter number of days you want to watch: ")
+                        if (self.validate_day_rental_input(day_rental)):
+                            valid_day_flag = False
+                            day_rentals.append(float(day_rental))
+                        else:
+                            print("Invalid day rental!")
+                else:
+                    print("Your movie you entered does not exists!")
+        print(day_rentals)
         print(orders)
-        return None
 
-    def payment_movies(self):
-        return 0
+    def make_order(self, order_movies: list, days_rental: list):
+        order_service = OrderService()
+        order_service.order_movies(order_movies, days_rental)
+        exit()
+
+    def validate_movie_input(self, movie_id: str) -> bool:
+        if (movie_id in ["MOV001", "MOV002", "MOV003", "MOV004", "MOV005"]):
+            return True
+        return False
+
+    def validate_day_rental_input(self, day_rental: str) -> bool:
+        try:
+            float(day_rental)
+            return True
+        except Exception:
+            return False
 
     def user_input(self, messages: str):
         return input(messages)
@@ -162,6 +189,4 @@ class Program:
     def exit_application(self, confim: str):
         if (confim == Constants.EXIT_APPLICATION):
             print("Good bye!")
-            logger = ConfigureApplication.logger(__name__)
-            logger.info("Customer exited system")
             exit()

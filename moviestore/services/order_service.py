@@ -9,9 +9,9 @@ from moviestore.utils.file_utils import FileUltils
 
 
 class OrderService:
-    def order_movies(self, order_items: List[str]) -> list:
-
-        return Order(None, None, None)
+    def order_movies(self, order_items: List[str], days_rental: List[float]):
+        order = Order(None, None, None, None)
+        return order
 
     def export_invoice(self, customer_email: str) -> Tuple[Customer, List[Invoice]]:
         customer_info = {}
