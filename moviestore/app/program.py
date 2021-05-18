@@ -1,3 +1,5 @@
+from datetime import datetime, date
+from moviestore.models.order import Order
 import os
 import uuid
 import tempfile
@@ -94,9 +96,10 @@ class Program:
             print("Your email dose not exists!\nPlease input correct your email address:")
             self.authenticate_account()
 
-    def get_innvoice(self, email: str):
+    def get_innvoice(self, email: str, order_id: str):
         order_service = OrderService()
-        customer_details, invoice = order_service.export_invoice(email)
+        customer_details, invoice = order_service.export_invoice(
+            email, order_id)
         print_helper.print_invoice(customer_details, invoice)
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
@@ -125,6 +128,7 @@ class Program:
         ordering_flag = True
         orders = []
         day_rentals = []
+        ordered_id = ""
         print("Note: Confirm order complete movie whenever please enter 'yes' or 'exit' to cancel all movies ordered.")
         while ordering_flag:
             movie_orders = input(
@@ -137,7 +141,7 @@ class Program:
                     self.execute()
             if ((movie_orders == "yes") & bool(orders)):
                 ordering_flag = False
-                self.make_order(orders, day_rentals)
+                ordered_id = self.make_order(orders, day_rentals)
             if (movie_orders == "exit"):
                 if (bool(orders)):
                     cancel_ordered = input(
@@ -163,13 +167,33 @@ class Program:
                             print("Invalid day rental!")
                 else:
                     print("Your movie you entered does not exists!")
+        if (ordered_id != Constants.ERROR):
+            self.get_innvoice("test", ordered_id)
+        else:
+            print(Constants.ERROR_MESSAGES)
+            self.exit_application(Constants.EXIT_APPLICATION)
         print(day_rentals)
         print(orders)
 
-    def make_order(self, order_movies: list, days_rental: list):
+    def make_order(self, order_movies: list, days_rental: list) -> str:
+        order = Order(None, None, None, None)
+        order_id = str(uuid.uuid1())
+        order.set_order_id(order_id)
+        order.set_customer_id("CUS0001")
+        order.set_movies({
+            "movie_ids": order_movies,
+            "days_rental": days_rental
+        })
+        today = date.today()
+        today = today.strftime("%Y/%m/%d")
+        order.set_order_date(today)
+
         order_service = OrderService()
-        order_service.order_movies(order_movies, days_rental)
-        exit()
+        if order_service.order_movies(order):
+            print("Ordered movies!")
+            return order_id
+        else:
+            return Constants.ERROR
 
     def validate_movie_input(self, movie_id: str) -> bool:
         if (movie_id in ["MOV001", "MOV002", "MOV003", "MOV004", "MOV005"]):

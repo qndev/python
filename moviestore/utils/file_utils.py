@@ -154,3 +154,22 @@ class FileUltils:
             logger.error(e)
             print(Constants.ERROR_MESSAGES)
             return e
+
+    @staticmethod
+    def write_order_data(order: dict) -> Union[bool, FileNotFoundError, Exception]:
+        try:
+            with open(Constants.CUSTOMER_RESOURCES_PATH) as file:
+                data = json.load(file)
+                temp = data[Constants.ORDERS_KEYS[0]]
+                temp.append(order)
+            with open(Constants.CUSTOMER_RESOURCES_PATH, "w") as file:
+                json.dump(data, file, indent=4)
+            return True
+        except FileNotFoundError as fnf:
+            logger.error(fnf)
+            print(Constants.ERROR_MESSAGES)
+            return fnf
+        except Exception as e:
+            logger.error(e)
+            print(Constants.ERROR_MESSAGES)
+            return e

@@ -1,23 +1,25 @@
 import datetime
 import math
+from moviestore.helpers import order_helper
 from moviestore.models.customer import Customer
 from moviestore.models.invoice import Invoice
 from moviestore.constants.constant import Constants
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 from moviestore.models.order import Order
 from moviestore.utils.file_utils import FileUltils
 
 
 class OrderService:
-    def order_movies(self, order_items: List[str], days_rental: List[float]):
-        order = Order(None, None, None, None)
-        return order
+    def order_movies(self, order: Order) -> bool:
+        order_data = order_helper.convert_order_data(order)
+        return FileUltils.write_order_data(order_data) == True
 
-    def export_invoice(self, customer_email: str) -> Tuple[Customer, List[Invoice]]:
+    def export_invoice(self, customer_email: str, order_id: str) -> Tuple[Customer, List[Invoice]]:
         customer_info = {}
         customer_info = FileUltils.read_customer_data(customer_email, False)
         customer_id = customer_info["id"]
-        orders_info = FileUltils.read_orders_data(customer_id, "ORDER001")
+        orders_info = FileUltils.read_orders_data(
+            customer_id, order_id)
         category_info = FileUltils.read_category_data()
         movies_info = FileUltils.read_order_movies_data(
             (orders_info.get_movies())["movie_ids"])
