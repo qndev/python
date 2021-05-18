@@ -1,4 +1,9 @@
+import os
+
+
 class Constants:
+
+    path_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     REGULAR_MAX_DAYS = 3
     CHILD_FAMILY_MAX_DAYS = 5
@@ -9,9 +14,9 @@ class Constants:
     EXTRA_NEW_FEES = [1.0, 1.0, 3.0]
     EXTRA_DAY_FEES = [1.5, 1.0, 3.0]
     OPTIONS = ["1", "2", "3"]
-    CUSTOMER_RESOURCES_PATH = "/home/quangnd/Python/python-training/moviestore/resources/customers.json"
-    MOVIE_RESOURCES_PATH = "/home/quangnd/Python/python-training/moviestore/resources/movies.json"
-    CATEGORY_RESOURCES_PATH = "/home/quangnd/Python/python-training/moviestore/resources/categories.json"
+    CUSTOMER_RESOURCES_PATH = path_dir + "/resources/customers.json"
+    MOVIE_RESOURCES_PATH = path_dir + "/resources/movies.json"
+    CATEGORY_RESOURCES_PATH = path_dir + "/resources/categories.json"
     EMPTY_STRING = ""
     ERROR_MESSAGES = "Some thing went wrong, please contact to administrator to fix this!"
     CUSTOMER_KEYS = ["customers", "id", "name", "email"]

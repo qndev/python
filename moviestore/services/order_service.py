@@ -28,8 +28,6 @@ class OrderService:
 
         total_pays = 0.0
 
-        discount = 0
-
         for movie_id in movies_info:
             invoice = Invoice(None, None, None, None,
                               None, None, None, None, None)
@@ -118,6 +116,24 @@ class OrderService:
 
         discount_points = int(customer_info["discount_points"])
 
+        discount = self.calculate_discount(discount_points, total_pays)
+
+        if (discount > 0):
+            total_pays = total_pays - (discount*total_prices)/100
+
+        invoice.set_total_pay(total_pays)
+
+        invoice.set_discount(discount)
+
+        points_after_payment = self.calculate_points(total_pays)
+
+        return customer_info, invoice_data
+
+    def calculate_order_price(self, ):
+        return 0
+
+    def calculate_discount(self, discount_points: int, total_pays: float) -> float:
+        discount = 0
         if (discount_points > 200):
             discount = 10
             discount_extra_50 = math.floor((discount_points - 200)/50)*1
@@ -131,18 +147,14 @@ class OrderService:
         if (total_pays > 500):
             discount = 10
 
-        if (discount > 0):
-            total_pays = total_pays - (discount*total_prices)/100
+        return discount
 
-        invoice.set_total_pay(total_pays)
-
-        invoice.set_discount(discount)
-
-        discount_points_after_pay = 0
+    def calculate_points(self, total_pays: float) -> int:
+        discount_points = 0
 
         if (total_pays >= 100):
-            discount_points_after_pay = 10
-            discount_points_after_pay = discount_points_after_pay + \
-                math.ceil((total_pays - 100)*5)
+            discount_points = 10
+            discount_points = discount_points + \
+                math.floor((total_pays - 100)*5)
 
-        return customer_info, invoice_data
+        return discount_points

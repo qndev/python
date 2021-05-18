@@ -10,14 +10,17 @@ from moviestore.configs.configure_application import ConfigureApplication
 
 class Program:
 
-    def execute(self, root_dir: str):
+    def execute(self):
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         logger = ConfigureApplication.logger(__name__)
         logger.info("Started Application")
 
         separator_temp_filename = "-"
         session_user_id = str(uuid.uuid1())
         prefix_file_name = session_user_id + separator_temp_filename
-        temp_dir = root_dir + "/moviestore/temp"
+        temp_dir = root_dir + "/temp"
+
+        print(root_dir)
         tempfile.tempdir = temp_dir
         temp_file = tempfile.NamedTemporaryFile(mode="w+",
                                                 prefix=prefix_file_name,
@@ -28,8 +31,8 @@ class Program:
         temp_file.seek(0)
         print(temp_file.read())
         temp_file.close()
-        # os.unlink(temp_file.name)
-        # os.path.exists(temp_file.name)
+        os.unlink(temp_file.name)
+        os.path.exists(temp_file.name)
 
         print_helper.print_header()
         print_helper.print_options()
@@ -85,7 +88,7 @@ class Program:
                     self.order_movies()
                 if (order_confirmation == "n"):
                     order_confirm_flag = False
-                    self.execute("")
+                    self.execute()
             return None
         else:
             print("Your email dose not exists!\nDo you want to continute (Y/n)")
@@ -130,7 +133,7 @@ class Program:
                     "You have not yet ordered any movies, do you want to cancel (Y/n): ")
                 if (cancel == "Y"):
                     ordering_flag = False
-                    self.execute("")
+                    self.execute()
             if ((movie_orders == "yes") & bool(orders)):
                 ordering_flag = False
             if (movie_orders == "exit"):
@@ -139,7 +142,7 @@ class Program:
                         "You orderd movies, Are you sure want to cancel (Y/n): ")
                     if (cancel_ordered == "Y"):
                         ordering_flag = False
-                        self.execute("")
+                        self.execute()
                     if (cancel_ordered == "n"):
                         continue
                 ordering_flag = False
