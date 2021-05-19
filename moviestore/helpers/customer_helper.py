@@ -1,3 +1,4 @@
+from typing import Union
 import uuid
 from moviestore.models.customer import Customer
 from moviestore.utils.string_utils import StringUtils
@@ -30,14 +31,14 @@ def set_customer_values():
     customer_service.insert_customer(customer)
 
 
-def exists_customer() -> bool:
+def exists_customer() -> Union[dict, str]:
     logging_in = True
     imput_email = ""
     while logging_in:
         imput_email = input("Please enter your email: ")
         if ((StringUtils.check_for_blanks(imput_email)) == False):
             logging_in = False
-    exists_customer = customer_service.select_customer_email(imput_email)
-    if (exists_customer):
-        return True
-    return False
+    exists_customer = customer_service.select_customer_data(imput_email)
+    if (bool(exists_customer)):
+        return exists_customer
+    return "False"

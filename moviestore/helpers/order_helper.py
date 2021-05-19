@@ -8,13 +8,14 @@ def convert_order_data(order: Order) -> dict:
         Constants.ORDERS_KEYS[1]: order.get_order_id(),
         Constants.ORDERS_KEYS[2]: order.get_customer_id(),
         Constants.ORDERS_KEYS[4]: order.get_movies(),
+        "discount_point_order": order.get_discount_point_order(),
         Constants.ORDERS_KEYS[7]: order.get_order_date()
     }
     return order_data
 
 
 def convert_to_order(order_data: dict) -> Order:
-    order = Order(None, None, None, None)
+    order = Order(None, None, None, None, None)
     movies = {
         "movie_ids": (order_data["movies"])["movie_ids"],
         "days_rental": (order_data["movies"])["days_rental"]

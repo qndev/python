@@ -103,14 +103,10 @@ class FileUltils:
                     if (not list_invoices):
                         if ((order_item[Constants.ORDERS_KEYS[2]] == customer_id) & (order_item["order_id"] == order_id)):
                             order_data = order_item
-                            # print("list_orders")
-                            # print(order_data)
                             return order_data
                     else:
                         if (order_item[Constants.ORDERS_KEYS[2]] == customer_id):
                             list_orders.append(order_item)
-                # print("list_orders")
-                # print(list_orders)
                 return list_orders
 
         except FileNotFoundError as fnf:
@@ -165,6 +161,27 @@ class FileUltils:
                 data = json.load(file)
                 temp = data[Constants.ORDERS_KEYS[0]]
                 temp.append(order)
+            with open(Constants.CUSTOMER_RESOURCES_PATH, "w") as file:
+                json.dump(data, file, indent=4)
+            return True
+        except FileNotFoundError as fnf:
+            logger.error(fnf)
+            print(Constants.ERROR_MESSAGES)
+            return fnf
+        except Exception as e:
+            logger.error(e)
+            print(Constants.ERROR_MESSAGES)
+            return e
+
+    @staticmethod
+    def write_customer_points(customer_info: dict, points_after_order: int) -> Union[bool, FileNotFoundError, Exception]:
+        customer_info["discount_point_order"] = points_after_order
+        print(customer_info)
+        try:
+            with open(Constants.CUSTOMER_RESOURCES_PATH) as file:
+                data = json.load(file)
+                temp = data[Constants.CUSTOMER_KEYS[0]]
+                temp.append(customer_info)
             with open(Constants.CUSTOMER_RESOURCES_PATH, "w") as file:
                 json.dump(data, file, indent=4)
             return True

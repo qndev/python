@@ -2,10 +2,11 @@ from moviestore.models.customer import Customer
 
 
 class Order:
-    def __init__(self, order_id: str, customer_id: str, movies: dict, order_date: str):
+    def __init__(self, order_id: str, customer_id: str, movies: dict, discount_point_order: int, order_date: str):
         self._order_id = order_id
         self._customer_id = customer_id
         self._movies = movies
+        self._discount_point_order = discount_point_order
         self._order_date = order_date
 
     def get_order_id(self):
@@ -25,6 +26,12 @@ class Order:
 
     def set_movies(self, movies):
         self._movies = movies
+
+    def get_discount_point_order(self):
+        return self._discount_point_order
+
+    def set_discount_point_order(self, discount_point_order):
+        self._discount_point_order = discount_point_order
 
     def get_order_date(self):
         return self._order_date

@@ -1,3 +1,4 @@
+from typing import Union
 from moviestore.models.customer import Customer
 from moviestore.utils.file_utils import FileUltils
 from moviestore.constants.constant import Constants
@@ -12,8 +13,8 @@ class CustomerService:
         }
         FileUltils.write_customer_data(data)
 
-    def select_customer_email(self, email: str) -> bool:
-        customer_email = FileUltils.read_customer_email(email)
-        if (email == customer_email):
-            return True
-        return False
+    def select_customer_data(self, email: str) -> Union[dict, str]:
+        customer = FileUltils.read_customer_data(email, False)
+        if (isinstance(customer, dict)):
+            return customer
+        return "False"

@@ -14,30 +14,36 @@ class OrderService:
         order_data = order_helper.convert_order_data(order)
         return FileUltils.write_order_data(order_data) == True
 
-    def export_invoice(self, customer_email: str, order_id: str, invoices_flag: bool) -> Tuple[Customer, Union[List[Invoice], List[List[Invoice]]]]:
+    def export_invoice(self, customer_email: str, order_id: str, invoices_flag: bool, order_flag: bool) -> Tuple[Customer, Union[List[Invoice], List[List[Invoice]]]]:
         customer_info = {}
         invoices = []
         customer_info = FileUltils.read_customer_data(customer_email, False)
         customer_id = customer_info["id"]
         orders_info = FileUltils.read_orders_data(
             customer_id, order_id, invoices_flag)
-        if (isinstance(orders_info, list)):
+        if (isinstance(orders_info, list) & (order_flag == False)):
+            index = 0
             for order_info in orders_info:
                 order = order_helper.convert_to_order(order_info)
+                order.set_discount_point_order(
+                    orders_info[index]["discount_point_order"])
                 order_movie_ids = (order.get_movies())["movie_ids"]
                 category_info = FileUltils.read_category_data()
                 movies_info = FileUltils.read_order_movies_data(
                     order_movie_ids)
                 invoice_data = self.get_invoice_data(
-                    movies_info, category_info, order, customer_info)
+                    movies_info, category_info, order, customer_info, order_flag)
                 invoices.append(invoice_data)
+                index = index + 1
         else:
             order = order_helper.convert_to_order(orders_info)
+            order.set_discount_point_order(
+                orders_info["discount_point_order"])
             order_movie_ids = (order.get_movies())["movie_ids"]
             category_info = FileUltils.read_category_data()
             movies_info = FileUltils.read_order_movies_data(order_movie_ids)
             invoice_data = self.get_invoice_data(
-                movies_info, category_info, order, customer_info)
+                movies_info, category_info, order, customer_info, order_flag)
             invoices = invoice_data
 
         """ orders = order_helper.convert_to_orders(orders_info)
@@ -46,7 +52,7 @@ class OrderService:
 
         return customer_info, invoices
 
-    def get_invoice_data(self, movies_info: dict, category_info: dict, order: Order, customer_info: dict) -> List[Invoice]:
+    def get_invoice_data(self, movies_info: dict, category_info: dict, order: Order, customer_info: dict, order_flag: bool) -> List[Invoice]:
         invoice_data = []
 
         total_prices = 0.0
@@ -140,7 +146,7 @@ class OrderService:
 
             invoice_data.append(invoice)
 
-        discount_points = int(customer_info["discount_points"])
+        discount_points = order.get_discount_point_order()
 
         discount = self.calculate_discount(discount_points, total_pays)
 
@@ -150,6 +156,13 @@ class OrderService:
         invoice.set_total_pay(total_pays)
 
         invoice.set_discount(discount)
+
+        if (order_flag):
+            points_after_order = self.calculate_points(
+                total_pays, order, movies_info, customer_info)
+            FileUltils.write_customer_points(customer_info, points_after_order)
+
+       # print(test)
 
         return invoice_data
 
@@ -173,12 +186,23 @@ class OrderService:
 
         return discount
 
-    def calculate_points(self, total_pays: float) -> int:
+    def calculate_points(self, total_pays: float, order: Order, movies_info: dict, customer_info: dict) -> int:
         discount_points = 0
+        points_cate01 = 0
+        points_cate02 = 0
+        points_cate03 = 0
 
         if (total_pays >= 100):
             discount_points = 10
             discount_points = discount_points + \
-                math.floor((total_pays - 100)*5)
-
-        return discount_points
+                math.floor(((total_pays - 100)*5)/100)
+        movie_ids = order.get_movies()["movie_ids"]
+        for movie_id in movie_ids:
+            category_id = movies_info[movie_id]["category_id"]
+            if (category_id == "CATE001"):
+                points_cate01 = 7
+            if (category_id == "CATE002"):
+                points_cate02 = 5
+            if (category_id == "CATE003"):
+                points_cate03 = 10
+        return discount_points + points_cate01 + points_cate02 + points_cate03

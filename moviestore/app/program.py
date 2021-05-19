@@ -56,7 +56,7 @@ class Program:
             self.authenticate_account()
 
         if (selected_option == "3"):
-            self.get_innvoice("test", "TEST")
+            self.get_innvoice("test", "GET_IVOICES", False)
 
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
@@ -68,7 +68,8 @@ class Program:
 
     def authenticate_account(self):
         print("Authenticate your account ...")
-        if(customer_helper.exists_customer()):
+        customer_data = customer_helper.exists_customer()
+        if(isinstance(customer_data, dict)):
             print_helper.print_header()
             print_helper.print_movie_banner()
 
@@ -87,7 +88,7 @@ class Program:
                 order_confirmation = input(
                     "Do you want to order movies (Y/n): ")
                 if ((order_confirmation == "Y") or (order_confirmation == "y")):
-                    self.order_movies()
+                    self.order_movies(customer_data)
                 if (order_confirmation == "n"):
                     order_confirm_flag = False
                     self.execute()
@@ -95,13 +96,6 @@ class Program:
         else:
             print("Your email dose not exists!\nPlease input correct your email address:")
             self.authenticate_account()
-
-    def get_innvoice(self, email: str, order_id: str):
-        order_service = OrderService()
-        customer_details, invoice = order_service.export_invoice(
-            email, order_id, True)
-        print_helper.print_invoices(customer_details, invoice)
-        self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def continue_application(self):
         continue_flag = True
@@ -124,7 +118,7 @@ class Program:
                 continue_flag = False
                 self.exit_application(continue_input)
 
-    def order_movies(self):
+    def order_movies(self, customer_data: dict):
         ordering_flag = True
         orders = []
         day_rentals = []
@@ -141,7 +135,8 @@ class Program:
                     self.execute()
             if ((movie_orders == "yes") & bool(orders)):
                 ordering_flag = False
-                ordered_id = self.make_order(orders, day_rentals)
+                ordered_id = self.make_order(
+                    customer_data, orders, day_rentals)
             if (movie_orders == "exit"):
                 if (bool(orders)):
                     cancel_ordered = input(
@@ -168,22 +163,23 @@ class Program:
                 else:
                     print("Your movie you entered does not exists!")
         if (ordered_id != Constants.ERROR):
-            self.get_innvoice("test", ordered_id)
+            self.get_innvoice(customer_data["email"], ordered_id, True)
         else:
             print(Constants.ERROR_MESSAGES)
             self.exit_application(Constants.EXIT_APPLICATION)
         print(day_rentals)
         print(orders)
 
-    def make_order(self, order_movies: list, days_rental: list) -> str:
-        order = Order(None, None, None, None)
+    def make_order(self, customer_data: dict, order_movies: list, days_rental: list) -> str:
+        order = Order(None, None, None, None, None)
         order_id = str(uuid.uuid1())
         order.set_order_id(order_id)
-        order.set_customer_id("CUS0001")
+        order.set_customer_id(customer_data["id"])
         order.set_movies({
             "movie_ids": order_movies,
             "days_rental": days_rental
         })
+        order.set_discount_point_order(customer_data["discount_points"])
         today = date.today()
         today = today.strftime("%Y/%m/%d")
         order.set_order_date(today)
@@ -194,6 +190,17 @@ class Program:
             return order_id
         else:
             return Constants.ERROR
+
+    def get_innvoice(self, email: str, order_id: str, order_flag: bool):
+        order_service = OrderService()
+        if (order_id != "GET_IVOICES"):
+            customer_details, invoice = order_service.export_invoice(
+                email, order_id, False, order_flag)
+        else:
+            customer_details, invoice = order_service.export_invoice(
+                email, order_id, True, order_flag)
+        print_helper.print_invoices(customer_details, invoice)
+        self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def validate_movie_input(self, movie_id: str) -> bool:
         if (movie_id in ["MOV001", "MOV002", "MOV003", "MOV004", "MOV005"]):
