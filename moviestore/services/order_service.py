@@ -4,7 +4,7 @@ from moviestore.helpers import order_helper
 from moviestore.models.customer import Customer
 from moviestore.models.invoice import Invoice
 from moviestore.constants.constant import Constants
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 from moviestore.models.order import Order
 from moviestore.utils.file_utils import FileUltils
 
@@ -14,16 +14,41 @@ class OrderService:
         order_data = order_helper.convert_order_data(order)
         return FileUltils.write_order_data(order_data) == True
 
-    def export_invoice(self, customer_email: str, order_id: str) -> Tuple[Customer, List[Invoice]]:
+    def export_invoice(self, customer_email: str, order_id: str, invoices_flag: bool) -> Tuple[Customer, Union[List[Invoice], List[List[Invoice]]]]:
         customer_info = {}
+        invoices = []
         customer_info = FileUltils.read_customer_data(customer_email, False)
         customer_id = customer_info["id"]
         orders_info = FileUltils.read_orders_data(
-            customer_id, order_id)
-        category_info = FileUltils.read_category_data()
-        movies_info = FileUltils.read_order_movies_data(
-            (orders_info.get_movies())["movie_ids"])
+            customer_id, order_id, invoices_flag)
+        if (isinstance(orders_info, list)):
+            for order_info in orders_info:
+                order = order_helper.convert_to_order(order_info)
+                order_movie_ids = (order.get_movies())["movie_ids"]
+                category_info = FileUltils.read_category_data()
+                movies_info = FileUltils.read_order_movies_data(
+                    order_movie_ids)
+                invoice_data = self.get_invoice_data(
+                    movies_info, category_info, order, customer_info)
+                invoices.append(invoice_data)
+        else:
+            order = order_helper.convert_to_order(orders_info)
+            order_movie_ids = (order.get_movies())["movie_ids"]
+            category_info = FileUltils.read_category_data()
+            movies_info = FileUltils.read_order_movies_data(order_movie_ids)
+            invoice_data = self.get_invoice_data(
+                movies_info, category_info, order, customer_info)
+            invoices = invoice_data
+            print("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
+            print(invoices)
 
+        """ orders = order_helper.convert_to_orders(orders_info)
+        order_movie_ids = order_helper.extract_order_movie_ids(orders)
+        points_after_payment = self.calculate_points(total_pays) """
+
+        return customer_info, invoices
+
+    def get_invoice_data(self, movies_info: dict, category_info: dict, order: Order, customer_info: dict) -> List[Invoice]:
         invoice_data = []
 
         total_prices = 0.0
@@ -40,8 +65,8 @@ class OrderService:
             invoice.set_release_month(
                 movies_info[movie_id][Constants.MOVIE_KEYS[2]])
 
-            days_rental = float((orders_info.get_movies()["days_rental"])[
-                orders_info.get_movies()["movie_ids"].index(movie_id)])
+            days_rental = float((order.get_movies()["days_rental"])[
+                order.get_movies()["movie_ids"].index(movie_id)])
 
             invoice.set_days_rental(days_rental)
 
@@ -51,7 +76,7 @@ class OrderService:
 
             invoice.set_price(price)
 
-            order_date_str = orders_info.get_order_date()
+            order_date_str = order.get_order_date()
             release_month_str = movies_info[movie_id]["release_month"]
 
             order_date = datetime.datetime.strptime(order_date_str, '%Y/%m/%d')
@@ -127,9 +152,7 @@ class OrderService:
 
         invoice.set_discount(discount)
 
-        points_after_payment = self.calculate_points(total_pays)
-
-        return customer_info, invoice_data
+        return invoice_data
 
     def calculate_order_price(self, ):
         return 0

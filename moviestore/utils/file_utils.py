@@ -3,7 +3,7 @@ import copy
 from moviestore.models.customer import Customer
 from moviestore.models.movie import Movie
 from moviestore.models.order import Order
-from typing import Union
+from typing import List, Union
 from moviestore.configs.configure_application import ConfigureApplication
 from moviestore.constants.constant import Constants
 
@@ -92,24 +92,27 @@ class FileUltils:
             return e
 
     @staticmethod
-    def read_orders_data(customer_id: str, order_id: str) -> Union[Order, FileNotFoundError, Exception]:
-        orders_data = []
+    def read_orders_data(customer_id: str, order_id: str, list_invoices: bool) -> Union[dict, list, FileNotFoundError, Exception]:
+        list_orders = []
+        order_data = {}
         try:
             with open(Constants.CUSTOMER_RESOURCES_PATH, "r") as customer_file:
                 data = json.load(customer_file)
                 orders_data = data[Constants.ORDERS_KEYS[0]]
                 for order_item in orders_data:
-                    if ((order_item[Constants.ORDERS_KEYS[2]] == customer_id) & (order_item["order_id"] == order_id)):
-                        order = Order(None, None, None, None)
-                        movies = {
-                            "movie_ids": (order_item["movies"])["movie_ids"],
-                            "days_rental": (order_item["movies"])["days_rental"]
-                        }
-                        order.set_order_id(order_item["order_id"])
-                        order.set_movies(movies)
-                        order.set_order_date(order_item["order_date"])
-                        customer_file.close()
-                        return order
+                    if (not list_invoices):
+                        if ((order_item[Constants.ORDERS_KEYS[2]] == customer_id) & (order_item["order_id"] == order_id)):
+                            order_data = order_item
+                            # print("list_orders")
+                            # print(order_data)
+                            return order_data
+                    else:
+                        if (order_item[Constants.ORDERS_KEYS[2]] == customer_id):
+                            list_orders.append(order_item)
+                # print("list_orders")
+                # print(list_orders)
+                return list_orders
+
         except FileNotFoundError as fnf:
             logger.error(fnf)
             print(Constants.ERROR_MESSAGES)
