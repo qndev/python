@@ -39,8 +39,6 @@ class OrderService:
             invoice_data = self.get_invoice_data(
                 movies_info, category_info, order, customer_info)
             invoices = invoice_data
-            print("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss")
-            print(invoices)
 
         """ orders = order_helper.convert_to_orders(orders_info)
         order_movie_ids = order_helper.extract_order_movie_ids(orders)
@@ -56,8 +54,9 @@ class OrderService:
         total_pays = 0.0
 
         for movie_id in movies_info:
-            invoice = Invoice(None, None, None, None,
+            invoice = Invoice(None, None, None, None, None,
                               None, None, None, None, None)
+            invoice.set_order_id(order.get_order_id())
             invoice.set_movie_name(
                 movies_info[movie_id][Constants.MOVIE_KEYS[0]])
             invoice.set_category(

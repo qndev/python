@@ -56,7 +56,7 @@ class Program:
             self.authenticate_account()
 
         if (selected_option == "3"):
-            self.get_innvoice("test", "ORDER001")
+            self.get_innvoice("test", "TEST")
 
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
@@ -99,8 +99,8 @@ class Program:
     def get_innvoice(self, email: str, order_id: str):
         order_service = OrderService()
         customer_details, invoice = order_service.export_invoice(
-            email, order_id, False)
-        print_helper.print_invoice(customer_details, invoice)
+            email, order_id, True)
+        print_helper.print_invoices(customer_details, invoice)
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def continue_application(self):

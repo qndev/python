@@ -1,5 +1,6 @@
 class Invoice:
-    def __init__(self, movie_name: str, category: str, release_month: str, days_rental: float, price: float, surcharge_new_movie: float, surcharge_days: float, discount: int, total_pay: float) -> None:
+    def __init__(self, order_id: str, movie_name: str, category: str, release_month: str, days_rental: float, price: float, surcharge_new_movie: float, surcharge_days: float, discount: int, total_pay: float) -> None:
+        self._order_id = order_id
         self._movie_name = movie_name
         self._category = category
         self._release_month = release_month
@@ -9,6 +10,12 @@ class Invoice:
         self._surcharge_days = surcharge_days
         self._discount = discount
         self._total_pay = total_pay
+
+    def get_order_id(self):
+        return self._order_id
+
+    def set_order_id(self, order_id):
+        self._order_id = order_id
 
     def get_movie_name(self):
         return self._movie_name
