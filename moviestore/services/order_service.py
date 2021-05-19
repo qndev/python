@@ -162,8 +162,6 @@ class OrderService:
                 total_pays, order, movies_info, customer_info)
             FileUltils.write_customer_points(customer_info, points_after_order)
 
-       # print(test)
-
         return invoice_data
 
     def calculate_order_price(self, ):
@@ -171,12 +169,10 @@ class OrderService:
 
     def calculate_discount(self, discount_points: int, total_pays: float) -> float:
         discount = 0
-        if (discount_points > 200):
+        if (discount_points >= 200):
             discount = 10
             discount_extra_50 = math.floor((discount_points - 200)/50)*1
             discount = discount + discount_extra_50
-        else:
-            discount = discount + math.floor(discount_points/100)*5
 
         if (discount > 20):
             discount = 10
@@ -191,6 +187,13 @@ class OrderService:
         points_cate01 = 0
         points_cate02 = 0
         points_cate03 = 0
+
+        if (customer_info["discount_points"] >= 200):
+            discount_extra_50 = (customer_info["discount_points"] - 200) % 50
+            discount_points = discount_points + discount_extra_50
+        else:
+            discount_points = discount_points + \
+                customer_info["discount_points"]
 
         if (total_pays >= 100):
             discount_points = 10
