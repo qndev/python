@@ -160,7 +160,8 @@ class OrderService:
         if (order_flag):
             points_after_order = self.calculate_points(
                 total_pays, order, movies_info, customer_info)
-            FileUltils.write_customer_points(customer_info, points_after_order)
+            customer_info["discount_points"] = points_after_order
+            FileUltils.write_customer_points(customer_info)
 
         return invoice_data
 

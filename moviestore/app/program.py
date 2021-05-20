@@ -196,10 +196,11 @@ class Program:
         if (order_id != "GET_IVOICES"):
             customer_details, invoice = order_service.export_invoice(
                 email, order_id, False, order_flag)
+            print_helper.print_invoices(customer_details, invoice)
         else:
             customer_details, invoice = order_service.export_invoice(
                 email, order_id, True, order_flag)
-        print_helper.print_invoices(customer_details, invoice)
+            print_helper.print_invoices(customer_details, invoice)
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
     def validate_movie_input(self, movie_id: str) -> bool:

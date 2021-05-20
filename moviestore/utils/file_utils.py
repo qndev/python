@@ -174,14 +174,14 @@ class FileUltils:
             return e
 
     @staticmethod
-    def write_customer_points(customer_info: dict, points_after_order: int) -> Union[bool, FileNotFoundError, Exception]:
+    def write_customer_points(customer_info: dict) -> Union[bool, FileNotFoundError, Exception]:
         print(customer_info)
         try:
             with open(Constants.CUSTOMER_RESOURCES_PATH) as file:
                 data = json.load(file)
             for item in data[Constants.CUSTOMER_KEYS[0]]:
                 if (item["id"] == customer_info["id"]):
-                    item["discount_points"] = points_after_order
+                    item["discount_points"] = customer_info["discount_points"]
             with open(Constants.CUSTOMER_RESOURCES_PATH, "w") as file:
                 json.dump(data, file, indent=4)
             return True

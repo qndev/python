@@ -4,45 +4,23 @@
             "id": "CUS0001",
             "name": "Nguyen Dinh Quang",
             "email": "test",
-            "discount_points": 192
+            "discount_points": 5
         }
     ],
     "orders": [
         {
-            "order_id": "ORDER001",
-            "customer_id": "CUS0001",
-            "movies": {
-                "movie_ids": [
-                    "MOV001",
-                    "MOV002",
-                    "MOV003",
-                    "MOV004",
-                    "MOV005"
-                ],
-                "days_rental": [
-                    3,
-                    45,
-                    3,
-                    30,
-                    3
-                ]
-            },
-            "discount_point_order": 187,
-            "order_date": "2021/05/13"
-        },
-        {
-            "order_id": "2d97083a-b8c1-11eb-ace3-f8cab83d2a5c",
+            "order_id": "5840ede8-b93f-11eb-a688-f8cab83d2a5c",
             "customer_id": "CUS0001",
             "movies": {
                 "movie_ids": [
                     "MOV001"
                 ],
                 "days_rental": [
-                    2.0
+                    9.0
                 ]
             },
-            "discount_point_order": 187,
-            "order_date": "2021/05/19"
+            "discount_point_order": 0,
+            "order_date": "2021/05/20"
         }
     ]
 }

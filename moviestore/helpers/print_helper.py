@@ -54,7 +54,7 @@ def print_invoices(customer: dict, invoices: Union[List[Invoice], List[List[Invo
     print("\nCustomer:           " + customer["name"])
     print("Customer points:    " +
           str(customer["discount_points"]) + " pts" + "\n\n")
-
+    print(customer)
     if (isinstance(invoices[0], Invoice)):
         print_invoice(invoices)
     else:
