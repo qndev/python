@@ -71,31 +71,47 @@ class Program:
         customer_data = customer_helper.exists_customer()
         if(isinstance(customer_data, dict)):
             print_helper.print_header()
-            print_helper.print_movie_banner()
+            print_helper.print_movies_options()
+            option_flag = True
+            movie_options = ""
+            while option_flag:
+                movie_options = input("Please select the option (1 or 2): ")
+                if (movie_options == "1"):
+                    option_flag = False
+                if (movie_options == "2"):
+                    option_flag = False
 
-            movie_service = MoveService()
-            movies = movie_service.select_movies()
-            if not bool(movies):
-                print("There are no films in the store!")
-                return
-            no = 1
-            sliced_movies = movie_helper.slice_string(movies)
-            for movie in sliced_movies:
-                print_helper.print_list_movies(movie, no)
-                no = no + 1
-            order_confirm_flag = True
-            while order_confirm_flag:
-                order_confirmation = input(
-                    "Do you want to order movies (Y/n): ")
-                if ((order_confirmation == "Y") or (order_confirmation == "y")):
-                    self.order_movies(customer_data)
-                if (order_confirmation == "n"):
-                    order_confirm_flag = False
-                    self.execute()
-            return None
+            if (movie_options == "1"):
+                self.display_list_movies(customer_data)
+            if (movie_options == "2"):
+                self.get_innvoice(customer_data["email"], "GET_IVOICES", False)
         else:
             print("Your email dose not exists!\nPlease input correct your email address:")
             self.authenticate_account()
+
+    def display_list_movies(self, customer_data: dict):
+        print_helper.print_movie_banner()
+
+        movie_service = MoveService()
+        movies = movie_service.select_movies()
+        if not bool(movies):
+            print("There are no films in the store!")
+            return
+        no = 1
+        sliced_movies = movie_helper.slice_string(movies)
+        for movie in sliced_movies:
+            print_helper.print_list_movies(movie, no)
+            no = no + 1
+        order_confirm_flag = True
+        while order_confirm_flag:
+            order_confirmation = input(
+                "Do you want to order movies (Y/n): ")
+            if ((order_confirmation == "Y") or (order_confirmation == "y")):
+                self.order_movies(customer_data)
+            if (order_confirmation == "n"):
+                order_confirm_flag = False
+                self.execute()
+        return None
 
     def continue_application(self):
         continue_flag = True

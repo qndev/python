@@ -23,7 +23,14 @@ def print_options():
     print("||                                                                                                                         ||")
     print("||                                              1. If you already have an account                                          ||")
     print("||                                              2. If you don't have an account                                            ||")
-    print("||                                              3. Invoice                                                                 ||")
+    print("||                                                                                                                         ||")
+    print("++=========================================================================================================================++")
+
+
+def print_movies_options():
+    print("||                                                                                                                         ||")
+    print("||                                              1. View list movies                                                        ||")
+    print("||                                              2. Your order invoices                                                     ||")
     print("||                                                                                                                         ||")
     print("++=========================================================================================================================++")
 
@@ -54,7 +61,6 @@ def print_invoices(customer: dict, invoices: Union[List[Invoice], List[List[Invo
     print("\nCustomer:           " + customer["name"])
     print("Customer points:    " +
           str(customer["discount_points"]) + " pts" + "\n\n")
-    print(customer)
     if (isinstance(invoices[0], Invoice)):
         print_invoice(invoices)
     else:
