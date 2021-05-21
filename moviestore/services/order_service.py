@@ -199,8 +199,7 @@ class OrderService:
                 customer_info["discount_points"]
 
         if (total_pays >= 100):
-            discount_points = 10
-            discount_points = discount_points + \
+            discount_points = 10 + discount_points + \
                 math.floor(((total_pays - 100)*5)/100)
         movie_ids = order.get_movies()["movie_ids"]
         for movie_id in movie_ids:
