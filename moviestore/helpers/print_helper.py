@@ -23,6 +23,7 @@ def print_options():
     print("||                                                                                                                         ||")
     print("||                                              1. If you already have an account                                          ||")
     print("||                                              2. If you don't have an account                                            ||")
+    print("||                                              3. Exit application                                                        ||")
     print("||                                                                                                                         ||")
     print("++=========================================================================================================================++")
 

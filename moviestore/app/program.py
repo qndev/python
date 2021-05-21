@@ -49,14 +49,14 @@ class Program:
                 logger.error(f"Option {selected_option} can not resolved")
                 print("Sorry please select correct the option (1 or 2)!")
 
-        if (selected_option == Constants.OPTIONS[1]):
-            self.create_account()
-
         if (selected_option == Constants.OPTIONS[0]):
             self.authenticate_account()
 
-        if (selected_option == "3"):
-            self.get_innvoice("test", "GET_IVOICES", False)
+        if (selected_option == Constants.OPTIONS[1]):
+            self.create_account()
+
+        if (selected_option == Constants.OPTIONS[2]):
+            self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
         self.exit_application(Constants.CONFIRM_EXITING_APPLICATION)
 
