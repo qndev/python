@@ -61,7 +61,7 @@ class OrderService:
 
         for movie_id in movies_info:
             invoice = Invoice(None, None, None, None, None,
-                              None, None, None, None, None)
+                              None, None, None, None, None, None)
             invoice.set_order_id(order.get_order_id())
             invoice.set_movie_name(
                 movies_info[movie_id][Constants.MOVIE_KEYS[0]])
@@ -156,6 +156,8 @@ class OrderService:
         invoice.set_total_pay(total_pays)
 
         invoice.set_discount(discount)
+
+        invoice.set_order_date(order.get_order_date())
 
         if (order_flag):
             points_after_order = self.calculate_points(

@@ -4,7 +4,7 @@
             "id": "CUS0001",
             "name": "Nguyen Dinh Quang",
             "email": "test",
-            "discount_points": 20
+            "discount_points": 37
         }
     ],
     "orders": [
@@ -37,6 +37,22 @@
             },
             "discount_point_order": 5,
             "order_date": "2021/05/20"
+        },
+        {
+            "order_id": "fca0dd4c-ba27-11eb-ab6c-f8cab83d2a5c",
+            "customer_id": "CUS0001",
+            "movies": {
+                "movie_ids": [
+                    "MOV005",
+                    "MOV002"
+                ],
+                "days_rental": [
+                    15.0,
+                    29.0
+                ]
+            },
+            "discount_point_order": 20,
+            "order_date": "2021/05/21"
         }
     ]
 }

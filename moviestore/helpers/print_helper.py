@@ -69,7 +69,8 @@ def print_invoices(customer: dict, invoices: Union[List[Invoice], List[List[Invo
 
 
 def print_invoice(invoices: List[Invoice]):
-    print("Order ID: " + invoices[0].get_order_id())
+    print("Order ID: " + invoices[0].get_order_id() +
+          "   Date: " + invoices[len(invoices) - 1].get_order_date())
     table_data = []
     column_titles = ["No", "Movie", "Category", "Release month",
                      "Day of rental", "Price", "Surcharge 1", "Surcharge 2"]
