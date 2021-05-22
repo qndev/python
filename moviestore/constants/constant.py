@@ -19,7 +19,7 @@ class Constants:
     CATEGORY_RESOURCES_PATH = path_dir + "/resources/categories.json"
     EMPTY_STRING = ""
     ERROR_MESSAGES = "Some thing went wrong, please contact to administrator to fix this!"
-    CUSTOMER_KEYS = ["customers", "id", "name", "email"]
+    CUSTOMER_KEYS = ["customers", "id", "name", "email", "discount_points"]
     ORDERS_KEYS = ["orders", "order_id", "customer_id", "customer",
                    "movies", "days_rental", "discount", "order_date"]
     MOVIE_KEYS = ["name", "category_id", "release_month"]

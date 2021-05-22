@@ -9,7 +9,8 @@ class CustomerService:
         data = {
             Constants.CUSTOMER_KEYS[1]: customer_info.get_customer_id(),
             Constants.CUSTOMER_KEYS[2]: customer_info.get_name(),
-            Constants.CUSTOMER_KEYS[3]: customer_info.get_email()
+            Constants.CUSTOMER_KEYS[3]: customer_info.get_email(),
+            Constants.CUSTOMER_KEYS[4]: 0
         }
         FileUltils.write_customer_data(data)
 

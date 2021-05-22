@@ -5,6 +5,18 @@
             "name": "Nguyen Dinh Quang",
             "email": "test",
             "discount_points": 67
+        },
+        {
+            "id": "cs400881-72ebbd0c-bae9-11eb-adb2-f8cab83d2a5c",
+            "name": "Nguyen Dinh Quang",
+            "email": "quangnd.hust@gmail.com",
+            "discount_points": 10
+        },
+        {
+            "id": "cs400881-088d0b88-baed-11eb-adb2-f8cab83d2a5c",
+            "name": "test",
+            "email": "test",
+            "discount_points": 0
         }
     ],
     "orders": [
@@ -81,6 +93,20 @@
             },
             "discount_point_order": 47,
             "order_date": "2021/05/21"
+        },
+        {
+            "order_id": "bc75645a-bae9-11eb-adb2-f8cab83d2a5c",
+            "customer_id": "cs400881-72ebbd0c-bae9-11eb-adb2-f8cab83d2a5c",
+            "movies": {
+                "movie_ids": [
+                    "MOV005"
+                ],
+                "days_rental": [
+                    9.0
+                ]
+            },
+            "discount_point_order": 0,
+            "order_date": "2021/05/22"
         }
     ]
 }
